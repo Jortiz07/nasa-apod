@@ -58,6 +58,14 @@ public class ImageFragment extends Fragment {
           setupCalendarPicker(calendar);
           this.apod = apod;
         });
+    viewModel.getThrowable().observe(getViewLifecycleOwner(), (throwable) -> {
+      loading.setVisibility(View.GONE);
+      Toast toast = Toast.makeText(getActivity(),
+          getString(R.string.error_message, throwable.getMessage()), Toast.LENGTH_LONG);
+      toast.setMargin(-1, 0.1f);
+      toast.show();
+
+    });
   }
 
   private void setupWebView(View root) {
