@@ -10,6 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import edu.cnm.deepdive.android.DateTimePickerFragment;
 import edu.cnm.deepdive.android.DateTimePickerFragment.Mode;
 import edu.cnm.deepdive.android.DateTimePickerFragment.OnChangeListener;
 import edu.cnm.deepdive.nasaapod.R;
+import edu.cnm.deepdive.nasaapod.model.Apod;
 import edu.cnm.deepdive.nasaapod.viewmodel.MainViewModel;
 import java.util.Calendar;
 
@@ -31,6 +33,7 @@ public class ImageFragment extends Fragment {
   private MainViewModel viewModel;
   private ProgressBar loading;
   private FloatingActionButton calendar;
+  private Apod apod;
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,6 +56,7 @@ public class ImageFragment extends Fragment {
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(apod.getDate());
           setupCalendarPicker(calendar);
+          this.apod = apod;
         });
   }
 
@@ -67,6 +71,10 @@ public class ImageFragment extends Fragment {
       @Override
       public void onPageFinished(WebView view, String url) {
         loading.setVisibility(View.GONE);
+        Toast toast= Toast.makeText(getActivity(), apod.getTitle(), Toast.LENGTH_LONG);
+        toast.setMargin(-1, 0.1f);
+        toast.show();
+
       }
     });
     WebSettings settings = contentView.getSettings();
